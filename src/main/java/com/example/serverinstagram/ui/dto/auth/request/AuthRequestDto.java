@@ -1,4 +1,4 @@
-package com.example.serverinstagram.ui.dto.auth;
+package com.example.serverinstagram.ui.dto.auth.request;
 
 
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.serverinstagram.ui.dto;
+package com.example.serverinstagram.ui.dto.user;
 
 
 import lombok.*;

@@ -2,8 +2,7 @@ package com.example.serverinstagram.ui.controller.auth;
 
 import com.example.serverinstagram.domain.user.model.User;
 import com.example.serverinstagram.infrastructure.util.JwtTokenUtil;
-import com.example.serverinstagram.ui.dto.auth.AuthRequestDto;
-import io.swagger.models.Response;
+import com.example.serverinstagram.ui.dto.auth.request.AuthRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -37,7 +36,6 @@ public class AuthenticationController {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDto.getUsername(), new User(authRequestDto.getUsername(), authRequestDto.getPassword())));
 
             String principal = (String) authentication.getPrincipal();
-
             return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, jwtTokenUtil.generateAccessToken(principal, authentication.getAuthorities())).body(jwtTokenUtil.generateRefreshToken(principal));
         } catch (AuthenticationException ex) {
             logger.error("Authentication exception: " + ex.getMessage());

@@ -23,12 +23,19 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name= "name")
+    private String name;
+
     @Column(name = "username" , nullable = false, unique = true)
     private String username;
 
 
     @Column(name = "password")
     private String password;
+
+
+    @Column(name ="image_path")
+    private String imagePath;
 
 
     public User(String username, String password)
