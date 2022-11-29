@@ -1,6 +1,7 @@
 package com.example.serverinstagram.configuration.security.provider;
 
 
+import com.example.serverinstagram.configuration.security.user.UserPrincipal;
 import com.example.serverinstagram.domain.user.model.User;
 import com.example.serverinstagram.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         }
         logger.info("CustomAuthenticationProvider: fetched user {}", user.getUsername());
         try {
-            String principal = (String) authentication.getPrincipal();
+            UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
             Collection<GrantedAuthority> authorities = new ArrayList<>();
             fetchedUser.getRoles().forEach(role -> {
                 authorities.add(new SimpleGrantedAuthority(role.getName()));

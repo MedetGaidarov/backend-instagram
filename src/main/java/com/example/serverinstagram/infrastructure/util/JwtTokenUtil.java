@@ -2,6 +2,7 @@ package com.example.serverinstagram.infrastructure.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.serverinstagram.configuration.security.user.UserPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,10 +33,10 @@ public class JwtTokenUtil {
 
 
 
-    public String generateAccessToken(String username, Collection<? extends GrantedAuthority> authorities) {
+    public String generateAccessToken(UserPrincipal principal, Collection<? extends GrantedAuthority> authorities) {
         Algorithm algorithm = Algorithm.HMAC256(signingKey.getBytes());
         return JWT.create()
-                .withSubject(username)
+                .withSubject(principal.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 40 * 60 * 1000))
                 .withIssuer(jwtIssuer)
                 .withClaim("roles", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
@@ -45,10 +46,10 @@ public class JwtTokenUtil {
     }
 
 
-    public String generateRefreshToken(String username) {
+    public String generateRefreshToken(UserPrincipal principal) {
         Algorithm algorithm = Algorithm.HMAC256(refreshSigningKey.getBytes());
         return JWT.create()
-                .withSubject(username)
+                .withSubject(principal.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
                 .withIssuer(jwtIssuer)
                 .sign(algorithm);
