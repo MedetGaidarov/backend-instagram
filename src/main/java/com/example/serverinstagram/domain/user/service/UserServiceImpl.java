@@ -22,9 +22,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
-
+    }
+    @Override
+    public User encodeAndSave(User user) {
+        String encoded = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encoded);
+        return userRepository.save(user);
     }
 
     @Override
@@ -41,4 +45,6 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+
 }

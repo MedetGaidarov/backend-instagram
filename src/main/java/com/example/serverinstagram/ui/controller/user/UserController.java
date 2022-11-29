@@ -37,14 +37,11 @@ public class UserController {
     @PostMapping()
     public ResponseEntity<Object> save(@RequestBody UserDto userDto)
     {
-
-
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
-
-        return ResponseEntity.ok().body(userService.save(user));
+        return ResponseEntity.ok().body(userService.encodeAndSave(user));
     }
 
 
