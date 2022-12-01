@@ -21,6 +21,8 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    TODO: Fill up all fields
+    private String description;
+
+    private String imagePath;
 
 }
