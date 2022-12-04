@@ -16,6 +16,7 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "likes")
 public class Like extends UserDateAudit {
 
     @Id
