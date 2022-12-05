@@ -1,4 +1,4 @@
-package com.example.serverinstagram.ui.dto.follow.response;
+package com.example.serverinstagram.ui.dto.post.request;
 
 
 import lombok.AllArgsConstructor;
@@ -10,7 +10,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FollowResponseDto {
-    private String message;
-    private boolean followed;
+public class PostRequestDto {
+
+    private String description;
+
 }

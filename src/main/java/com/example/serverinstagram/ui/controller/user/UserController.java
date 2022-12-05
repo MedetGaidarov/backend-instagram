@@ -52,7 +52,7 @@ public class UserController {
     public ResponseEntity<Object> getCurrentUser(@AuthenticationPrincipal UserPrincipal currentUser) {
         try {
               UserSummary userInfo = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName(), currentUser.getImagePath());
-            return ResponseEntity.ok(new DefaultResponseDto("Success", "User info successfully given", currentUser));
+            return ResponseEntity.ok(new DefaultResponseDto("Success", "User info successfully given", userInfo));
         } catch (Exception e) {
             return ResponseEntity.ok(new DefaultResponseDto("Fault", e.getMessage()));
         }

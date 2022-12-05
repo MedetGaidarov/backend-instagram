@@ -53,9 +53,9 @@ public class FollowServiceImpl implements FollowService {
 
             followRepository.save(follow);
             return new FollowResponseDto(
-                    String.format("User %s followed to %s", follow.getFollower().getUsername(), follow.getFollowing().getUsername()));
+                    String.format("User %s followed to %s", follow.getFollower().getUsername(), follow.getFollowing().getUsername()), true);
         } catch (Exception e) {
-            return new FollowResponseDto(e.getMessage());
+            return new FollowResponseDto(e.getMessage(), false);
         }
     }
 

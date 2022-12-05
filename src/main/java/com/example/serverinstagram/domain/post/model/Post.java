@@ -1,6 +1,7 @@
 package com.example.serverinstagram.domain.post.model;
 
 
+import com.example.serverinstagram.domain.audit.model.UserDateAudit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import javax.persistence.Id;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Post {
+public class Post extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
