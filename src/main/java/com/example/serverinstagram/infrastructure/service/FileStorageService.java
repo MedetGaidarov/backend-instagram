@@ -16,7 +16,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
-@Service
+
+
 public class FileStorageService {
 
     private final Path fileStorageLocation;
@@ -28,6 +29,7 @@ public class FileStorageService {
         } catch (Exception e) {
             throw new IllegalArgumentException("Error some ");
         }
+
     }
 
 

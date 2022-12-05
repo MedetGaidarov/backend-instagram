@@ -15,5 +15,5 @@ public interface PostService {
     Optional<Post> findById(Long id);
     PagedResponse<PostResponseDto> getAllPosts(int page, int size, UserPrincipal currentUser);
     ResponseEntity<?> createPost(PostRequestDto postRequestDto, MultipartFile image) throws Exception;
-    SavedPostResponse savePostForUser(Long postId, UserPrincipal currentUser);
+//    SavedPostResponse savePostForUser(Long postId, UserPrincipal currentUser);
 }

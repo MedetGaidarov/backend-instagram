@@ -22,11 +22,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.Instant;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -43,8 +47,8 @@ public class PostServiceImpl implements PostService {
 
     private final UserRepository userRepository;
 
-    private final FileStorageService fileStorageService;
-
+//    private final FileStorageService fileStorageService;
+    // TODO: do filestorageservice
 
     @Override
     public Optional<Post> findById(Long id) {
@@ -83,17 +87,24 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public ResponseEntity<?> createPost(PostRequestDto postRequestDto, MultipartFile image) throws Exception {
-        String fileName = fileStorageService.storeFile(image);
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("posts/images")
-                .path(fileName)
-                .toUriString();
+        UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findByUsername(currentUser.getUsername()).orElseThrow(() ->
+        {
+            throw new IllegalArgumentException("WTF");
+        });
+
+
+//        String fileName = fileStorageService.storeFile(image);
+//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                .path("posts/images")
+//                .path(fileName)
+//                .toUriString();
 
         Post post = new Post();
         post.setDescription(postRequestDto.getDescription());
-        post.setImagePath(fileDownloadUri);
+        post.setImagePath("sdfsdsdsdfsd");
+        post.setCreatedBy(user.getId());
         postRepository.save(post);
-
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{postId}")
                 .buildAndExpand(post.getId()).toUri();
@@ -103,14 +114,14 @@ public class PostServiceImpl implements PostService {
 
     }
 
-    @Override
-    public SavedPostResponse savePostForUser(Long postId, UserPrincipal currentUser) {
-        Post post = postRepository.findById(postId).orElseThrow( ()-> new ResourceNotFoundException("Post", "id", postId));
-        User user = userRepository.getOne(currentUser.getId());
-        // TODO: stopped here!
-
-
-    }
+//    @Override
+//    public SavedPostResponse savePostForUser(Long postId, UserPrincipal currentUser) {
+//        Post post = postRepository.findById(postId).orElseThrow( ()-> new ResourceNotFoundException("Post", "id", postId));
+//        User user = userRepository.getOne(currentUser.getId());
+//        // TODO: stopped here!
+//
+//
+//    }
 
 
     public Map<Long, User> getPostCreatorMap(List<Post> posts) {

@@ -3,6 +3,8 @@ package com.example.serverinstagram.domain.audit.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -22,11 +24,11 @@ import java.time.Instant;
 @Getter
 @Setter
 public abstract class DateAudit implements Serializable {
-    @CreatedDate
+    @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     @Column(nullable = false)
     private Instant updatedAt;
 
