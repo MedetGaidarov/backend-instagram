@@ -4,6 +4,7 @@ package com.example.serverinstagram.infrastructure.service;
 import com.example.serverinstagram.configuration.properties.FileStorageProperties;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,12 @@ import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 
-
+@Service
 public class FileStorageService {
 
     private final Path fileStorageLocation;
 
+    @Autowired
     public FileStorageService(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
         try {
@@ -35,7 +37,7 @@ public class FileStorageService {
 
     public String storeFile(MultipartFile file) throws Exception {
         // Normalize the file
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+        String fileName = StringUtils.cleanPath((Objects.requireNonNull(file.getOriginalFilename())));
 
         try {
             // Check if the file's name contains invalid characters

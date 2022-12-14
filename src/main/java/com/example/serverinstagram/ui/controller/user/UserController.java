@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
@@ -84,4 +85,15 @@ public class UserController {
         }
         return ResponseEntity.badRequest().body("Role not found");
     }
+
+
+
+    @PostMapping("/profile/photo")
+    public ResponseEntity<?> updateUserPhoto(
+                                             @RequestParam("image") MultipartFile image) {
+        UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return userService.updateUserPicture(currentUser, image);
+    }
+
 }

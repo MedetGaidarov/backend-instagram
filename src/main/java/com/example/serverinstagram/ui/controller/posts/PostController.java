@@ -35,51 +35,11 @@ public class PostController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> createPost(@ModelAttribute PostRequestDto postRequestDto) throws Exception {
+    public ResponseEntity<?> createPost(@ModelAttribute PostRequestDto postRequestDto, @RequestParam("image") MultipartFile image) throws Exception {
         try
         {
 
-            return postService.createPost(postRequestDto, new MultipartFile() {
-                @Override
-                public String getName() {
-                    return "SDFDF";
-                }
-
-                @Override
-                public String getOriginalFilename() {
-                    return null;
-                }
-
-                @Override
-                public String getContentType() {
-                    return null;
-                }
-
-                @Override
-                public boolean isEmpty() {
-                    return false;
-                }
-
-                @Override
-                public long getSize() {
-                    return 0;
-                }
-
-                @Override
-                public byte[] getBytes() throws IOException {
-                    return new byte[0];
-                }
-
-                @Override
-                public InputStream getInputStream() throws IOException {
-                    return null;
-                }
-
-                @Override
-                public void transferTo(File dest) throws IOException, IllegalStateException {
-
-                }
-            });
+            return postService.createPost(postRequestDto, image);
         }
         catch (Exception e)
         {

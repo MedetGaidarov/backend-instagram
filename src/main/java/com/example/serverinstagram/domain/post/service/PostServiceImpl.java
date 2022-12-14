@@ -17,6 +17,8 @@ import com.example.serverinstagram.ui.dto.post.request.PostRequestDto;
 import com.example.serverinstagram.ui.dto.post.response.PostResponseDto;
 import com.example.serverinstagram.ui.dto.post.response.SavedPostResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +49,8 @@ public class PostServiceImpl implements PostService {
 
     private final UserRepository userRepository;
 
-//    private final FileStorageService fileStorageService;
+
+    private final FileStorageService fileStorageService;
     // TODO: do filestorageservice
 
     @Override
@@ -94,15 +97,15 @@ public class PostServiceImpl implements PostService {
         });
 
 
-//        String fileName = fileStorageService.storeFile(image);
-//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("posts/images")
-//                .path(fileName)
-//                .toUriString();
+        String fileName = fileStorageService.storeFile(image);
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("posts/images")
+                .path(fileName)
+                .toUriString();
 
         Post post = new Post();
         post.setDescription(postRequestDto.getDescription());
-        post.setImagePath("sdfsdsdsdfsd");
+        post.setImagePath(fileDownloadUri);
         post.setCreatedBy(user.getId());
         postRepository.save(post);
         URI location = ServletUriComponentsBuilder
