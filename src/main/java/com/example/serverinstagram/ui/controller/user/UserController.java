@@ -15,6 +15,7 @@ import com.example.serverinstagram.ui.dto.user.role.UserRoleDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.RolesAllowed;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
@@ -96,4 +98,9 @@ public class UserController {
         return userService.updateUserPicture(currentUser, image);
     }
 
+    @PostMapping("/profile/photo/{fileName:.+}")
+    public ResponseEntity<Resource> getUserPhoto(@PathVariable String fileName, HttpServletRequest request)
+    {
+        return userService.getUserPhoto(fileName, request);
+    }
 }

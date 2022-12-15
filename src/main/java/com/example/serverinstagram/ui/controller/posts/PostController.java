@@ -4,20 +4,16 @@ package com.example.serverinstagram.ui.controller.posts;
 import com.example.serverinstagram.configuration.security.user.UserPrincipal;
 import com.example.serverinstagram.domain.post.service.PostService;
 import com.example.serverinstagram.infrastructure.constants.AppConstants;
-import com.example.serverinstagram.ui.dto.DefaultResponseDto;
 import com.example.serverinstagram.ui.dto.PagedResponse;
 import com.example.serverinstagram.ui.dto.post.request.PostRequestDto;
 import com.example.serverinstagram.ui.dto.post.response.PostResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+
 
 @RestController
 @RequiredArgsConstructor
