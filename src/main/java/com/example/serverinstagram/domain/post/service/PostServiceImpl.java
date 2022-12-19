@@ -8,6 +8,8 @@ import com.example.serverinstagram.domain.likes.model.Like;
 import com.example.serverinstagram.domain.likes.repository.LikeRepository;
 import com.example.serverinstagram.domain.post.model.Post;
 import com.example.serverinstagram.domain.post.repository.PostRepository;
+import com.example.serverinstagram.domain.savedPost.model.SavedPost;
+import com.example.serverinstagram.domain.savedPost.repository.SavedPostRepository;
 import com.example.serverinstagram.domain.user.model.User;
 import com.example.serverinstagram.domain.user.repository.UserRepository;
 import com.example.serverinstagram.infrastructure.mapper.ModelMapper;
@@ -18,6 +20,7 @@ import com.example.serverinstagram.ui.dto.like.LikeCountResponse;
 import com.example.serverinstagram.ui.dto.like.LikeResponse;
 import com.example.serverinstagram.ui.dto.post.request.PostRequestDto;
 import com.example.serverinstagram.ui.dto.post.response.PostResponseDto;
+import com.example.serverinstagram.ui.dto.savedPost.response.SavedPostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,6 +50,8 @@ public class PostServiceImpl implements PostService {
     private final UserRepository userRepository;
 
     private final LikeRepository likeRepository;
+
+    private final SavedPostRepository savedPostRepository;
 
 
 
@@ -148,6 +153,12 @@ public class PostServiceImpl implements PostService {
     public LikeCountResponse likeCount(Long postId) {
         Long likeCount = likeRepository.countByPostId(postId);
         return new LikeCountResponse(likeCount);
+    }
+
+    @Override
+    public SavedPostResponse savePostForUser(Long postId, UserPrincipal currentUser) {
+        SavedPost savedPost = savedPostRepository.findByPostIdAndUserId(postId, currentUser.getId());
+
     }
 
     public Map<Long, User> getPostCreatorMap(List<Post> posts) {

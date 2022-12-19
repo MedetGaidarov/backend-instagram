@@ -7,7 +7,7 @@ import com.example.serverinstagram.ui.dto.like.LikeCountResponse;
 import com.example.serverinstagram.ui.dto.like.LikeResponse;
 import com.example.serverinstagram.ui.dto.post.request.PostRequestDto;
 import com.example.serverinstagram.ui.dto.post.response.PostResponseDto;
-import com.example.serverinstagram.ui.dto.post.response.SavedPostResponse;
+import com.example.serverinstagram.ui.dto.savedPost.response.SavedPostResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,4 +24,5 @@ public interface PostService {
 
     LikeCountResponse likeCount(Long postId);
 
+    SavedPostResponse savePostForUser(Long postId, UserPrincipal currentUser);
 }

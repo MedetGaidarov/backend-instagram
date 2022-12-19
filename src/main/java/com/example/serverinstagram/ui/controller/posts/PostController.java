@@ -10,9 +10,11 @@ import com.example.serverinstagram.ui.dto.like.LikeCountResponse;
 import com.example.serverinstagram.ui.dto.like.LikeResponse;
 import com.example.serverinstagram.ui.dto.post.request.PostRequestDto;
 import com.example.serverinstagram.ui.dto.post.response.PostResponseDto;
+import com.example.serverinstagram.ui.dto.savedPost.response.SavedPostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,5 +62,13 @@ public class PostController {
     {
         return postService.likeCount(postId);
     }
+
+    @PostMapping("{postId}/save")
+    public SavedPostResponse savePost(@PathVariable Long postId)
+    {
+        UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return postService.savePostForUser(postId, currentUser);
+    }
+
 
 }
