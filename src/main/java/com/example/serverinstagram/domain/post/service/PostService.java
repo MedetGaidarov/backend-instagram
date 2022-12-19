@@ -3,6 +3,7 @@ package com.example.serverinstagram.domain.post.service;
 import com.example.serverinstagram.configuration.security.user.UserPrincipal;
 import com.example.serverinstagram.domain.post.model.Post;
 import com.example.serverinstagram.ui.dto.PagedResponse;
+import com.example.serverinstagram.ui.dto.like.LikeCountResponse;
 import com.example.serverinstagram.ui.dto.like.LikeResponse;
 import com.example.serverinstagram.ui.dto.post.request.PostRequestDto;
 import com.example.serverinstagram.ui.dto.post.response.PostResponseDto;
@@ -18,4 +19,9 @@ public interface PostService {
     ResponseEntity<?> createPost(PostRequestDto postRequestDto, MultipartFile image) throws Exception;
 //    SavedPostResponse savePostForUser(Long postId, UserPrincipal currentUser);
     LikeResponse addPostLike(Long postId, UserPrincipal currentUser);
+
+    LikeResponse checkIfPostLiked(Long postId, UserPrincipal currentUser);
+
+    LikeCountResponse likeCount(Long postId);
+
 }

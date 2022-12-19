@@ -10,32 +10,26 @@ import com.example.serverinstagram.domain.post.model.Post;
 import com.example.serverinstagram.domain.post.repository.PostRepository;
 import com.example.serverinstagram.domain.user.model.User;
 import com.example.serverinstagram.domain.user.repository.UserRepository;
-import com.example.serverinstagram.infrastructure.exception.ResourceNotFoundException;
 import com.example.serverinstagram.infrastructure.mapper.ModelMapper;
 import com.example.serverinstagram.infrastructure.service.FileStorageService;
 import com.example.serverinstagram.ui.dto.DefaultResponseDto;
 import com.example.serverinstagram.ui.dto.PagedResponse;
+import com.example.serverinstagram.ui.dto.like.LikeCountResponse;
 import com.example.serverinstagram.ui.dto.like.LikeResponse;
 import com.example.serverinstagram.ui.dto.post.request.PostRequestDto;
 import com.example.serverinstagram.ui.dto.post.response.PostResponseDto;
-import com.example.serverinstagram.ui.dto.post.response.SavedPostResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.time.Instant;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -130,19 +124,31 @@ public class PostServiceImpl implements PostService {
 
         Optional<Like> like = likeRepository.findByPostIdAndUserId(post.getId(), user.getId());
 
-        like.ifPresent(likeRepository::delete);
+        if(like.isPresent())
+        {
+            likeRepository.deleteById(like.get().getId());
+            return new LikeResponse(false);
+        }
+        Like newLike = Like.builder().post(post).user(user).build();
+        likeRepository.save(newLike);
+        return new LikeResponse(true);
+
 
     }
 
-//    @Override
-//    public SavedPostResponse savePostForUser(Long postId, UserPrincipal currentUser) {
-//        Post post = postRepository.findById(postId).orElseThrow( ()-> new ResourceNotFoundException("Post", "id", postId));
-//        User user = userRepository.getOne(currentUser.getId());
-//        // TODO: stopped here!
-//
-//
-//    }
+    @Override
+    public LikeResponse checkIfPostLiked(Long postId, UserPrincipal currentUser) {
+        Optional<Like> like = likeRepository.findByPostIdAndUserId(postId, currentUser.getId());
+        if(like.isPresent())
+            return new LikeResponse(true);
+        return new LikeResponse(false);
+    }
 
+    @Override
+    public LikeCountResponse likeCount(Long postId) {
+        Long likeCount = likeRepository.countByPostId(postId);
+        return new LikeCountResponse(likeCount);
+    }
 
     public Map<Long, User> getPostCreatorMap(List<Post> posts) {
         // Get Poll Creator details of the given list of polls
