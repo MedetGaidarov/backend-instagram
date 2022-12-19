@@ -3,10 +3,7 @@ package com.example.serverinstagram.domain.likes.model;
 import com.example.serverinstagram.domain.audit.model.UserDateAudit;
 import com.example.serverinstagram.domain.post.model.Post;
 import com.example.serverinstagram.domain.user.model.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -17,6 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "likes")
+@Builder
 public class Like extends UserDateAudit {
 
     @Id

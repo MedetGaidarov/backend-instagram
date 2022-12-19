@@ -4,6 +4,8 @@ package com.example.serverinstagram.domain.post.service;
 import com.example.serverinstagram.configuration.security.user.UserPrincipal;
 import com.example.serverinstagram.domain.follow.model.Follow;
 import com.example.serverinstagram.domain.follow.repository.FollowRepository;
+import com.example.serverinstagram.domain.likes.model.Like;
+import com.example.serverinstagram.domain.likes.repository.LikeRepository;
 import com.example.serverinstagram.domain.post.model.Post;
 import com.example.serverinstagram.domain.post.repository.PostRepository;
 import com.example.serverinstagram.domain.user.model.User;
@@ -13,6 +15,7 @@ import com.example.serverinstagram.infrastructure.mapper.ModelMapper;
 import com.example.serverinstagram.infrastructure.service.FileStorageService;
 import com.example.serverinstagram.ui.dto.DefaultResponseDto;
 import com.example.serverinstagram.ui.dto.PagedResponse;
+import com.example.serverinstagram.ui.dto.like.LikeResponse;
 import com.example.serverinstagram.ui.dto.post.request.PostRequestDto;
 import com.example.serverinstagram.ui.dto.post.response.PostResponseDto;
 import com.example.serverinstagram.ui.dto.post.response.SavedPostResponse;
@@ -48,6 +51,9 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
 
     private final UserRepository userRepository;
+
+    private final LikeRepository likeRepository;
+
 
 
     private final FileStorageService fileStorageService;
@@ -114,6 +120,17 @@ public class PostServiceImpl implements PostService {
 
         return ResponseEntity.created(location)
                 .body(new DefaultResponseDto("Success", "Post created"));
+
+    }
+
+    @Override
+    public LikeResponse addPostLike(Long postId, UserPrincipal currentUser) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        User user = userRepository.findById(currentUser.getId()).orElseThrow();
+
+        Optional<Like> like = likeRepository.findByPostIdAndUserId(post.getId(), user.getId());
+
+        like.ifPresent(likeRepository::delete);
 
     }
 
