@@ -2,12 +2,12 @@ package com.example.serverinstagram.domain.post.service;
 
 
 import com.example.serverinstagram.configuration.security.user.UserPrincipal;
+import com.example.serverinstagram.domain.post.repository.PostRepository;
 import com.example.serverinstagram.domain.follow.model.Follow;
 import com.example.serverinstagram.domain.follow.repository.FollowRepository;
 import com.example.serverinstagram.domain.likes.model.Like;
 import com.example.serverinstagram.domain.likes.repository.LikeRepository;
 import com.example.serverinstagram.domain.post.model.Post;
-import com.example.serverinstagram.domain.post.repository.PostRepository;
 import com.example.serverinstagram.domain.savedPost.model.SavedPost;
 import com.example.serverinstagram.domain.savedPost.repository.SavedPostRepository;
 import com.example.serverinstagram.domain.user.model.User;
@@ -52,7 +52,6 @@ public class PostServiceImpl implements PostService {
     private final LikeRepository likeRepository;
 
     private final SavedPostRepository savedPostRepository;
-
 
 
     private final FileStorageService fileStorageService;
@@ -129,8 +128,7 @@ public class PostServiceImpl implements PostService {
 
         Optional<Like> like = likeRepository.findByPostIdAndUserId(post.getId(), user.getId());
 
-        if(like.isPresent())
-        {
+        if (like.isPresent()) {
             likeRepository.deleteById(like.get().getId());
             return new LikeResponse(false);
         }
@@ -144,10 +142,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public LikeResponse checkIfPostLiked(Long postId, UserPrincipal currentUser) {
         Optional<Like> like = likeRepository.findByPostIdAndUserId(postId, currentUser.getId());
-        if(like.isPresent())
+        if (like.isPresent())
             return new LikeResponse(true);
         return new LikeResponse(false);
     }
+
 
     @Override
     public LikeCountResponse likeCount(Long postId) {
@@ -157,8 +156,25 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public SavedPostResponse savePostForUser(Long postId, UserPrincipal currentUser) {
-        SavedPost savedPost = savedPostRepository.findByPostIdAndUserId(postId, currentUser.getId());
+        Post post = postRepository.findById(postId).orElseThrow();
+        User user = userRepository.findById(currentUser.getId()).orElseThrow();
 
+        Optional<SavedPost> savedPost = savedPostRepository.findByPostIdAndUserId(postId, currentUser.getId());
+
+        if (savedPost.isPresent()) {
+            savedPostRepository.deleteById(savedPost.get().getId());
+            return new SavedPostResponse(false);
+        }
+        SavedPost newSavedPost = SavedPost.builder().post(post).user(user).build();
+        savedPostRepository.save(newSavedPost);
+        return new SavedPostResponse(true);
+    }
+
+    public SavedPostResponse checkIfPostSaved(Long postId, UserPrincipal currentUser) {
+        Optional<SavedPost> savedPost = savedPostRepository.findByPostIdAndUserId(postId, currentUser.getId());
+        if (savedPost.isPresent())
+            return new SavedPostResponse(true);
+        return new SavedPostResponse(false);
     }
 
     public Map<Long, User> getPostCreatorMap(List<Post> posts) {

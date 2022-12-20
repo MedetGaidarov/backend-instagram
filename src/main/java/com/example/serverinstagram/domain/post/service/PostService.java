@@ -25,4 +25,6 @@ public interface PostService {
     LikeCountResponse likeCount(Long postId);
 
     SavedPostResponse savePostForUser(Long postId, UserPrincipal currentUser);
+
+    SavedPostResponse checkIfPostSaved(Long postId, UserPrincipal currentUser);
 }

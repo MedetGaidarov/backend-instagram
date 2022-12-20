@@ -3,7 +3,6 @@ package com.example.serverinstagram.ui.controller.posts;
 
 import com.example.serverinstagram.configuration.security.user.UserPrincipal;
 import com.example.serverinstagram.domain.post.service.PostService;
-import com.example.serverinstagram.domain.user.model.User;
 import com.example.serverinstagram.infrastructure.constants.AppConstants;
 import com.example.serverinstagram.ui.dto.PagedResponse;
 import com.example.serverinstagram.ui.dto.like.LikeCountResponse;
@@ -14,7 +13,6 @@ import com.example.serverinstagram.ui.dto.savedPost.response.SavedPostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -70,5 +68,11 @@ public class PostController {
         return postService.savePostForUser(postId, currentUser);
     }
 
+    @GetMapping("{postId}/save/exists")
+    public SavedPostResponse isPostSavedByCurrent(@PathVariable Long postId)
+    {
+        UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return postService.checkIfPostSaved(postId, currentUser);
+    }
 
 }
