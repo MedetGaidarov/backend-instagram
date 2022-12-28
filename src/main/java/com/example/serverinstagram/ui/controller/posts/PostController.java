@@ -5,8 +5,8 @@ import com.example.serverinstagram.configuration.security.user.UserPrincipal;
 import com.example.serverinstagram.domain.post.service.PostService;
 import com.example.serverinstagram.infrastructure.constants.AppConstants;
 import com.example.serverinstagram.ui.dto.PagedResponse;
-import com.example.serverinstagram.ui.dto.like.LikeCountResponse;
-import com.example.serverinstagram.ui.dto.like.LikeResponse;
+import com.example.serverinstagram.ui.dto.post.like.LikeCountResponse;
+import com.example.serverinstagram.ui.dto.post.like.LikeResponse;
 import com.example.serverinstagram.ui.dto.post.request.PostRequestDto;
 import com.example.serverinstagram.ui.dto.post.response.PostResponseDto;
 import com.example.serverinstagram.ui.dto.savedPost.response.SavedPostResponse;
@@ -74,5 +74,13 @@ public class PostController {
         UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return postService.checkIfPostSaved(postId, currentUser);
     }
+
+
+
+
+
+
+
+
 
 }
