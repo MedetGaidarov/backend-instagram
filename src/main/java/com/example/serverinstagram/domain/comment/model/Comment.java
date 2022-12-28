@@ -3,10 +3,7 @@ package com.example.serverinstagram.domain.comment.model;
 import com.example.serverinstagram.domain.audit.model.UserDateAudit;
 import com.example.serverinstagram.domain.post.model.Post;
 import com.example.serverinstagram.domain.user.model.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Comment extends UserDateAudit {
 
     @Id
