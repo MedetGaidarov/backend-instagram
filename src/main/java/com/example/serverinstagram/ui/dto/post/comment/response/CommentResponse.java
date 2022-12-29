@@ -12,5 +12,6 @@ import java.util.List;
 @Builder
 public class CommentResponse {
     List<CommentDto> comments;
+    Long postId;
 
 }

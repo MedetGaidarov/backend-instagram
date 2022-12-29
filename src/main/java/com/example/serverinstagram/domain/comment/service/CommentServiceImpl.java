@@ -32,11 +32,11 @@ public class CommentServiceImpl implements CommentService {
 
        List<CommentDto> comments =  commentRepository.findAllByPostId(postId).stream().map(
                comment ->
-                    new CommentDto(comment.getBody(), getUserSummary(comment.getUser().getId()), comment.getPost().getId())
+                    new CommentDto(comment.getBody(), getUserSummary(comment.getUser().getId()))
 
        ).collect(Collectors.toList());
 
-       return CommentResponse.builder().comments(comments).build();
+       return CommentResponse.builder().postId(postId).comments(comments).build();
     }
 
     public UserSummary getUserSummary(Long userId)

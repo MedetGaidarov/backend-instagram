@@ -14,5 +14,4 @@ import lombok.Setter;
 public class CommentDto {
     String body;
     UserSummary createdBy;
-    Long postId;
 }
