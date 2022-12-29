@@ -7,9 +7,11 @@ import com.example.serverinstagram.domain.post.model.Post;
 import com.example.serverinstagram.domain.post.repository.PostRepository;
 import com.example.serverinstagram.domain.user.model.User;
 import com.example.serverinstagram.domain.user.repository.UserRepository;
+import com.example.serverinstagram.infrastructure.mapper.ModelMapper;
 import com.example.serverinstagram.ui.dto.post.comment.CommentDto;
 import com.example.serverinstagram.ui.dto.post.comment.request.CommentRequest;
 import com.example.serverinstagram.ui.dto.post.comment.response.CommentResponse;
+import com.example.serverinstagram.ui.dto.user.UserSummary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +29,20 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponse getAllCommentsByPostId(Long postId ) {
+
        List<CommentDto> comments =  commentRepository.findAllByPostId(postId).stream().map(
                comment ->
-                    new CommentDto(comment.getBody(), comment.getUser().getId(), comment.getPost().getId())
+                    new CommentDto(comment.getBody(), getUserSummary(comment.getUser().getId()), comment.getPost().getId())
 
        ).collect(Collectors.toList());
 
        return CommentResponse.builder().comments(comments).build();
+    }
+
+    public UserSummary getUserSummary(Long userId)
+    {
+        User user = userRepository.findById(userId).orElseThrow();
+        return ModelMapper.mapUsersToUserSummaries(user);
     }
 
     @Override

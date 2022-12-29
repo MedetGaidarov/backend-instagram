@@ -1,6 +1,7 @@
 package com.example.serverinstagram.ui.dto.post.comment;
 
 
+import com.example.serverinstagram.ui.dto.user.UserSummary;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CommentDto {
     String body;
-    Long userId;
+    UserSummary createdBy;
     Long postId;
-
-
 }

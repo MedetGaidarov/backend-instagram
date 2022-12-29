@@ -30,6 +30,7 @@ public class FollowController {
     @PostMapping()
     public ResponseEntity<Object> follow(@RequestBody FollowRequestDto followRequestDto)
     {
+
         try
         {
             Follow follow = new Follow();
