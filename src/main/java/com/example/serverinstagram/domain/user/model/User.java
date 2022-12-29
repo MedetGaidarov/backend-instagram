@@ -9,7 +9,6 @@ import java.util.Collection;
 
 
 @Entity
-@Data
 @Getter
 @Setter
 @AllArgsConstructor

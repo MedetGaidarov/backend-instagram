@@ -1,19 +1,16 @@
 package com.example.serverinstagram.ui.dto.post.comment.response;
 
 
-import com.example.serverinstagram.domain.comment.model.Comment;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.serverinstagram.ui.dto.post.comment.CommentDto;
+import lombok.*;
 
 import java.util.List;
-
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class CommentResponse {
-    List<Comment> comments;
+    List<CommentDto> comments;
 
 }

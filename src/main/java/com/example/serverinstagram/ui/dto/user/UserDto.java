@@ -3,7 +3,6 @@ package com.example.serverinstagram.ui.dto.user;
 
 import lombok.*;
 
-@Data
 @Getter
 @Setter
 @AllArgsConstructor

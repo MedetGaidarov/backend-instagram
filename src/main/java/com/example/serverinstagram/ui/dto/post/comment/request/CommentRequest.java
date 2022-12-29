@@ -1,11 +1,10 @@
 package com.example.serverinstagram.ui.dto.post.comment.request;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentRequest {
